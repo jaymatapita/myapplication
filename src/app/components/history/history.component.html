@@ -1,0 +1,83 @@
+<!-- History Screen Template -->
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+    <div class="w3-display-topleft w3-padding-large w3-xlarge">
+        <b>History</b>
+    </div>
+    <!-- Button to move on Dashboard  -->
+    <div>
+        <span class="home" title="Back to Home" routerLink="/dashboard"><i class='fas fa-home'></i></span>
+    </div>
+    <!-- Button to clear all history -->
+    <button type="button" class="btn btn-success clear-btn" (click)="clearHistory()">Clear History</button>
+    <div class="history-section">
+        <!-- Tabs for Successfull and Unsuccessfull Search History  -->
+        <div class="tab-section">
+            <ul class="nav nav-tabs">
+                <li [ngClass]="{'active': currentTab === 'tab1'}" (click)="setTab('tab1')"><a>Successfull Searches</a>
+                </li>
+                <li [ngClass]="{'active': currentTab === 'tab2'}" (click)="setTab('tab2')"><a>Unsuccessfull Searches</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div *ngIf="currentTab === 'tab1'">
+                    <div *ngIf="successfullUsers.length">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Type</th>
+                                    <th>EmailID</th>
+                                    <th>Date/Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of successfullUsers">
+                                    <td><img src="{{user.avatar_url}}"></td>
+                                    <td *ngIf="user.name">{{user.name}}</td>
+                                    <td *ngIf="!user.name">N.A.</td>
+                                    <td>{{user.login}}</td>
+                                    <td>{{user.type}}</td>
+                                    <td *ngIf="user.email">{{user.email}}</td>
+                                    <td *ngIf="!user.email">N.A.</td>
+                                    <td>{{ user.time | date :'medium'}}</td>
+                                    <td><i class='fas fa-eye' title="View Details" (click)="goToDetails(user)"></i></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="!successfullUsers.length" class="error">
+                        <p>No history for successful searches !!</p>
+                    </div>
+                </div>
+                <div *ngIf="currentTab === 'tab2'">
+                    <div *ngIf="unSuccessfullUsers.length">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of unSuccessfullUsers">
+                                    <td>{{user.username}}</td>
+                                    <td class="failed-status">{{user.status}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="!unSuccessfullUsers.length" class="error">
+                        <p>No history for unsuccessful searches !!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
